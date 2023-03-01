@@ -10,8 +10,8 @@ import lombok.*;
 @Entity
 public class GroupMember {
     @EqualsAndHashCode.Include
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
     @ToString.Exclude
@@ -21,6 +21,6 @@ public class GroupMember {
 
     @ToString.Exclude
     @ManyToOne
-    @JoinColumn(name = "conversation_id")
+    @JoinColumn(name = "chat_id")
     private Chat chat;
 }

@@ -1,7 +1,10 @@
 package com.vladrip.ifchat.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.Check;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
@@ -12,18 +15,21 @@ import java.util.List;
 @Entity
 public class Chat {
     @EqualsAndHashCode.Include
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
+    @Length(max = 150)
     private String name;
 
+    private String description;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     private ChatType type;
 
-    private Boolean publicGroup;
-
-    private String inviteLink;
+    @NotNull
+    private boolean publicGroup = true;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "chat")
