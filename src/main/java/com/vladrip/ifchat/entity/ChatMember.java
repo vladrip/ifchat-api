@@ -1,6 +1,7 @@
 package com.vladrip.ifchat.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @AllArgsConstructor
@@ -8,19 +9,22 @@ import lombok.*;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class GroupMember {
+public class ChatMember {
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
-    @ToString.Exclude
-    @ManyToOne
-    @JoinColumn(name = "person_id")
-    private Person person;
+    @NotNull
+    private boolean chatMuted = false;
 
     @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "chat_id")
     private Chat chat;
+
+    @ToString.Exclude
+    @ManyToOne
+    @JoinColumn(name = "person_id")
+    private Person person;
 }

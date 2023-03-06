@@ -1,13 +1,14 @@
 package com.vladrip.ifchat.dto;
 
-import lombok.Data;
+import lombok.Value;
 
 import java.time.LocalDateTime;
 
-@Data
+@Value
 public class MessageDto {
-    private String fromNumber;
-    private String content;
-    private LocalDateTime sentAt;
-    private Long chatId;
+    Long id;
+    String fromNumber;
+    String content;
+    LocalDateTime sentAt;
+    Long chatId;
 }

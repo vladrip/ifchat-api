@@ -1,12 +1,13 @@
 package com.vladrip.ifchat.dto;
 
 import com.vladrip.ifchat.entity.Chat;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 public class ChatDto {
-    private String name;
-    private String description;
-    private Chat.ChatType type;
-    private boolean publicGroup;
+    Long id;
+    String name;
+    String description;
+    Chat.ChatType type;
+    boolean publicGroup;
 }

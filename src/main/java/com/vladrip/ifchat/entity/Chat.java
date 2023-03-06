@@ -3,7 +3,6 @@ package com.vladrip.ifchat.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.annotations.Check;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
@@ -34,6 +33,10 @@ public class Chat {
     @ToString.Exclude
     @OneToMany(mappedBy = "chat")
     private List<Message> messages;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "chat")
+    private List<ChatMember> chatMembers;
 
     public enum ChatType {
         PRIVATE,

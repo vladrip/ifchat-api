@@ -41,7 +41,7 @@ public class Person {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "person")
-    private List<GroupMember> groupMembers;
+    private List<ChatMember> chatMembers;
 
     public enum PrivacyScope {
         EVERYBODY,
