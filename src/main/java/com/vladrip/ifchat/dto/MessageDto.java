@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 @Value
 public class MessageDto {
     Long id;
-    String fromNumber;
-    String content;
-    LocalDateTime sentAt;
     Long chatId;
+    LocalDateTime sentAt;
+    PersonShortDto sender;
+    String content;
 }

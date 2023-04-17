@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -25,9 +26,11 @@ public class Person {
     private String password;
 
     @Length(max = 32)
+    @Column(unique = true)
     private String tag;
 
-    @Length(max = 64)
+    @Length(min = 1, max = 64)
+    @NotNull
     private String firstName;
 
     @Length(max = 64)
@@ -36,16 +39,17 @@ public class Person {
     @Length(max = 100)
     private String bio;
 
-    @Enumerated(EnumType.STRING)
-    private PrivacyScope phoneVisible = PrivacyScope.CONTACTS;
+    private LocalDateTime onlineAt = LocalDateTime.now();
 
     @ToString.Exclude
     @OneToMany(mappedBy = "person")
     private List<ChatMember> chatMembers;
 
-    public enum PrivacyScope {
-        EVERYBODY,
-        NOBODY,
-        CONTACTS
+    @ToString.Exclude
+    @OneToMany(mappedBy = "sender")
+    private List<Message> messages;
+
+    public String getFullName() {
+        return firstName.concat(" ").concat(lastName);
     }
 }

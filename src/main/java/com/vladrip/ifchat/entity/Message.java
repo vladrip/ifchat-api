@@ -18,15 +18,17 @@ public class Message {
     @Id
     private Long id;
 
-    @NotNull
-    private String fromNumber;
-
     @Length(max = 4096)
     @NotNull
     private String content;
 
     @NotNull
     private LocalDateTime sentAt;
+
+    @ToString.Exclude
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private Person sender;
 
     @ToString.Exclude
     @ManyToOne

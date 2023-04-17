@@ -5,12 +5,10 @@ import lombok.Value;
 import java.time.LocalDateTime;
 
 @Value
-public class PersonDto {
+public class ChatMemberShortDto {
     Long id;
-    String phoneNumber;
-    String tag;
+    Long personId;
     String firstName;
     String lastName;
-    String bio;
     LocalDateTime onlineAt;
 }

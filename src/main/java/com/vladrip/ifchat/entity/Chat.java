@@ -27,9 +27,6 @@ public class Chat {
     @Enumerated(EnumType.STRING)
     private ChatType type;
 
-    @NotNull
-    private boolean publicGroup = true;
-
     @ToString.Exclude
     @OneToMany(mappedBy = "chat")
     private List<Message> messages;
