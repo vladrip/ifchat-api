@@ -1,9 +1,12 @@
 package com.vladrip.ifchat.service;
 
 import com.vladrip.ifchat.dto.MessageDto;
+import com.vladrip.ifchat.entity.Message;
+import com.vladrip.ifchat.exception.EntityNotFoundException;
 import com.vladrip.ifchat.mapping.Mapper;
 import com.vladrip.ifchat.repository.ChatRepository;
 import com.vladrip.ifchat.repository.MessageRepository;
+import com.vladrip.ifchat.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,14 +15,15 @@ import org.springframework.stereotype.Service;
 public class MessageService {
     private final MessageRepository messageRepository;
     private final ChatRepository chatRepository;
+    private final PersonRepository personRepository;
     private final Mapper mapper;
 
-    public void create(MessageDto messageDto, Long chatId) {
-//        Message message = mapper.toMessage(messageDto);
-//        message.setId(null);
-//        message.setChat(chatRepository.findById(chatId).orElseThrow(()->EntityNotFoundException.of("Chat", chatId)));
-//        messageRepository.save(message);
-
+    public void create(MessageDto messageDto) {
+        Message message = mapper.toMessage(messageDto);
+        Long chatId = messageDto.getChatId(), senderId = messageDto.getSender().getId();
+        message.setChat(chatRepository.findById(chatId).orElseThrow(()->EntityNotFoundException.of("Chat", chatId)));
+        message.setSender(personRepository.findById(senderId).orElseThrow(()->EntityNotFoundException.of("Person", senderId)));
+        messageRepository.save(message);
         //notify chat members: message.chat.chatMembers.filter(!message.fromNumber)
     }
 }

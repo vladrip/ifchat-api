@@ -15,6 +15,10 @@ public interface Mapper {
 
     @Mapping(target = "chatId", source = "message.chat.id")
     MessageDto toMessageDto(Message message);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "chat", ignore = true)
+    @Mapping(target = "sender", ignore = true)
+    Message toMessage(MessageDto messageDto);
 
     @Mapping(target = "id", source = "chat.id")
     @Mapping(target = "otherPerson", source = "person")

@@ -57,9 +57,10 @@ public class ChatService {
     }
 
     public List<MessageDto> getAllMessages(Long chatId, Long beforeId, Long afterId, int limit) {
-        Pageable queryLimit = PageRequest.of(0, limit);
         boolean isRefresh = beforeId.equals(afterId);
+        Pageable queryLimit = PageRequest.of(0, isRefresh ? limit : limit / 2);
         List<Message> messages = new ArrayList<>();
+
         if (beforeId != 0 || isRefresh)
             messages.addAll(messageRepository.getByChatIdAndBeforeId(chatId, beforeId, queryLimit));
         if (afterId != 0 || isRefresh)
