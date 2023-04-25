@@ -1,12 +1,14 @@
 package com.vladrip.ifchat.controller;
 
 import com.vladrip.ifchat.dto.MessageDto;
+import com.vladrip.ifchat.entity.Message;
 import com.vladrip.ifchat.service.MessageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RequiredArgsConstructor
 @RestController
@@ -15,7 +17,18 @@ public class MessageController {
     private final MessageService messageService;
 
     @PostMapping
-    public void create(@RequestBody MessageDto messageDto) {
-        messageService.create(messageDto);
+    public ResponseEntity<Object> create(@RequestBody MessageDto messageDto) {
+        Message persistedMessage = messageService.create(messageDto);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(persistedMessage.getId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        messageService.delete(id);
     }
 }

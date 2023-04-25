@@ -18,12 +18,16 @@ public class MessageService {
     private final PersonRepository personRepository;
     private final Mapper mapper;
 
-    public void create(MessageDto messageDto) {
+    public Message create(MessageDto messageDto) {
         Message message = mapper.toMessage(messageDto);
         Long chatId = messageDto.getChatId(), senderId = messageDto.getSender().getId();
         message.setChat(chatRepository.findById(chatId).orElseThrow(()->EntityNotFoundException.of("Chat", chatId)));
         message.setSender(personRepository.findById(senderId).orElseThrow(()->EntityNotFoundException.of("Person", senderId)));
-        messageRepository.save(message);
+        return messageRepository.save(message);
         //notify chat members: message.chat.chatMembers.filter(!message.fromNumber)
+    }
+
+    public void delete(Long id) {
+        messageRepository.deleteById(id);
     }
 }
