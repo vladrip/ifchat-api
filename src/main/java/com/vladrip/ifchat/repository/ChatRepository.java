@@ -12,15 +12,9 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
                 SELECT new com.vladrip.ifchat.dto.ChatListElDto(c.id, c.name, c.type, m.id, m.content, m.sentAt, cm.chatMuted)
                 FROM Chat c
                 INNER JOIN ChatMember cm ON c.id = cm.chat.id
-                INNER JOIN Message m ON c.id = m.chat.id
-                WHERE cm.person.id = :personId
-                  AND m.sentAt in
-                    (SELECT max(m2.sentAt)
-                     FROM ChatMember cm2
-                     INNER JOIN Message m2 ON cm2.chat.id = m2.chat.id
-                     WHERE cm2.person.id = :personId
-                     GROUP BY m2.chat.id)
+                LEFT JOIN Message m ON c.id = m.chat.id
+                WHERE cm.person.uid = :personUid
                 ORDER BY m.sentAt DESC
             """)
-    Page<ChatListElDto> collectChatListByPersonId(Long personId, Pageable pageable);
+    Page<ChatListElDto> collectChatListByPersonId(String personUid, Pageable pageable);
 }

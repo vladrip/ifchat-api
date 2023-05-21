@@ -1,30 +1,28 @@
 package com.vladrip.ifchat.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class ChatMember {
+public class Device {
     @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
-    private boolean chatMuted = false;
-
-    @ToString.Exclude
-    @ManyToOne
-    @JoinColumn(name = "chat_id")
-    private Chat chat;
 
     @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "person_uid")
     private Person person;
+
+    @Column(unique = true, nullable = false)
+    private String deviceToken;
+
+    private LocalDateTime tokenTimestamp = LocalDateTime.now();
 }

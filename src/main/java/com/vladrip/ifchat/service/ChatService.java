@@ -27,22 +27,22 @@ public class ChatService {
     private final ChatMemberRepository chatMemberRepository;
     private final Mapper mapper;
 
-    public Page<ChatListElDto> getChatList(Long personId, Pageable pageable) {
-        Page<ChatListElDto> chatListDtoPage = chatRepository.collectChatListByPersonId(personId, pageable);
+    public Page<ChatListElDto> getChatList(String personUid, Pageable pageable) {
+        Page<ChatListElDto> chatListDtoPage = chatRepository.collectChatListByPersonId(personUid, pageable);
         return chatListDtoPage.map(chatListDto -> {
             if (chatListDto.getChatType() == Chat.ChatType.PRIVATE) {
-                ChatMember otherMember = chatMemberRepository.getOtherPrivateChatMember(chatListDto.getChatId(), personId)
+                ChatMember otherMember = chatMemberRepository.getOtherPrivateChatMember(chatListDto.getChatId(), personUid)
                         .orElseThrow(() -> EntityNotFoundException.of("Chat", chatListDto.getChatId()));
                 return ChatListElDto.of(chatListDto, otherMember.getPerson().getFullName());
             } else return chatListDto;
         });
     }
 
-    public ChatPrivateDto getPrivateChat(Long id, Long personId) {
+    public ChatPrivateDto getPrivateChat(Long id, String personUid) {
         Chat chat = chatRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException.of("Chat", id));
-        ChatMember otherMember = chatMemberRepository.getOtherPrivateChatMember(id, personId)
-                .orElseThrow(() -> EntityNotFoundException.of("Other member of chat %d with member %d", id, personId));
+        ChatMember otherMember = chatMemberRepository.getOtherPrivateChatMember(id, personUid)
+                .orElseThrow(() -> EntityNotFoundException.of("Other member of chat %d with member %s", id, personUid));
         return mapper.toChatPrivateDto(chat, otherMember.getPerson());
     }
 

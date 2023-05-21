@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Value
 public class PersonDto {
-    Long id;
+    String uid;
     String phoneNumber;
     String tag;
     String firstName;

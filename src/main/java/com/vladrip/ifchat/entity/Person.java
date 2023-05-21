@@ -15,15 +15,12 @@ import java.util.List;
 @Entity
 public class Person {
     @EqualsAndHashCode.Include
+    @Length(max = 128)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String uid;
 
     @Column(unique = true, nullable = false)
     private String phoneNumber;
-
-    @NotNull
-    private String password;
 
     @Length(max = 32)
     @Column(unique = true)
@@ -36,9 +33,6 @@ public class Person {
     @Length(max = 64)
     private String lastName;
 
-    @Length(max = 100)
-    private String bio;
-
     private LocalDateTime onlineAt = LocalDateTime.now();
 
     @ToString.Exclude
@@ -48,6 +42,10 @@ public class Person {
     @ToString.Exclude
     @OneToMany(mappedBy = "sender")
     private List<Message> messages;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "person")
+    private List<Device> devices;
 
     public String getFullName() {
         return firstName.concat(" ").concat(lastName);

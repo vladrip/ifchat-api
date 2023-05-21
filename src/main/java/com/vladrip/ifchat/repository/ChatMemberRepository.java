@@ -14,10 +14,10 @@ public interface ChatMemberRepository extends JpaRepository<ChatMember, Long> {
 
     @Query("""
                 select cm from ChatMember cm
-                inner join Person p on p.id = cm.person.id
-                where cm.chat.id = :chatId and p.id != :personId
+                inner join Person p on p.uid = cm.person.uid
+                where cm.chat.id = :chatId and p.uid != :personUid
             """)
-    Optional<ChatMember> getOtherPrivateChatMember(Long chatId, Long personId);
+    Optional<ChatMember> getOtherPrivateChatMember(Long chatId, String personUid);
 
     int countByChatId(Long chatId);
 }

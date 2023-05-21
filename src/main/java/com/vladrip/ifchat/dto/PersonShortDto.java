@@ -4,7 +4,7 @@ import lombok.Value;
 
 @Value
 public class PersonShortDto {
-    Long id;
+    String uid;
     String firstName;
     String lastName;
 }

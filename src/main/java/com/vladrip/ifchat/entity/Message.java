@@ -27,7 +27,7 @@ public class Message {
 
     @ToString.Exclude
     @ManyToOne
-    @JoinColumn(name = "sender_id")
+    @JoinColumn(name = "sender_uid")
     private Person sender;
 
     @ToString.Exclude
