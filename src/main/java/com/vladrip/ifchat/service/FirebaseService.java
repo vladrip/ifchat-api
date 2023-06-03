@@ -2,11 +2,11 @@ package com.vladrip.ifchat.service;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.messaging.BatchResponse;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.MulticastMessage;
+import com.google.firebase.messaging.Notification;
 import com.google.gson.Gson;
+import com.vladrip.ifchat.dto.PersonDto;
 import com.vladrip.ifchat.entity.Device;
 import com.vladrip.ifchat.entity.Message;
 import com.vladrip.ifchat.mapping.Mapper;
@@ -31,35 +31,40 @@ public class FirebaseService {
 
     public void sendFirebaseMessage(Message message) {
         try {
+            String messageJson = gson.toJson(mapper.toMessageDto(message));
+            String chatTypeJson = message.getChat().getType().name();
+            String notificationBody = message.getContent().replaceAll("\n", " ").trim();
             switch (message.getChat().getType()) {
                 case PRIVATE -> {
-                    String otherPersonUid = chatService
+                    PersonDto otherPerson = chatService
                             .getPrivateChat(message.getChat().getId(), message.getSender().getUid())
-                            .getOtherPerson().getUid();
+                            .getOtherPerson();
+                    String otherPersonUid = otherPerson.getUid();
                     MulticastMessage firebaseMessage = MulticastMessage.builder()
                             .addAllTokens(deviceRepository.getAllByPersonUid(otherPersonUid)
                                     .stream().map(Device::getDeviceToken).collect(Collectors.toList()))
-                            .putData("message", gson.toJson(mapper.toMessageDto(message)))
+                            .putData("message", messageJson)
+                            .putData("chatType", chatTypeJson)
+                            .setNotification(Notification.builder()
+                                    .setTitle(otherPerson.getFirstName().concat(" ").concat(otherPerson.getLastName()))
+                                    .setBody(notificationBody)
+                                    .build()
+                            )
                             .build();
-
-                    BatchResponse batchResponse = firebaseMessaging.sendMulticast(firebaseMessage);
-                    if (batchResponse.getFailureCount() != 0)
-                        batchResponse.getResponses().forEach(response -> {
-                            if (response.isSuccessful()) return;
-                            FirebaseMessagingException responseException = response.getException();
-                            switch (responseException.getMessagingErrorCode()) {
-                                case UNREGISTERED, INVALID_ARGUMENT -> {
-                                    log.error("Unregistered or invalid device token");
-                                    //TODO: delete token
-                                }
-                            }
-                        });
+                    firebaseMessaging.sendMulticast(firebaseMessage);
+                    //TODO detect and delete inactive tokens
                 }
 
                 case GROUP -> {
                     com.google.firebase.messaging.Message firebaseMessage = com.google.firebase.messaging.Message.builder()
                             .setTopic("g".concat(message.getChat().getId().toString()))
-                            .putData("message", gson.toJson(mapper.toMessageDto(message)))
+                            .putData("message", messageJson)
+                            .putData("chatType", chatTypeJson)
+                            .setNotification(Notification.builder()
+                                    .setTitle(message.getChat().getName())
+                                    .setBody(notificationBody)
+                                    .build()
+                            )
                             .build();
                     firebaseMessaging.send(firebaseMessage);
                 }

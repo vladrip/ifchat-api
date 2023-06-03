@@ -3,6 +3,7 @@ package com.vladrip.ifchat.controller;
 import com.vladrip.ifchat.dto.*;
 import com.vladrip.ifchat.service.ChatService;
 import com.vladrip.ifchat.service.FirebaseService;
+import com.vladrip.ifchat.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequestMapping("/api/v1/chats")
 public class ChatController {
     private final ChatService chatService;
+    private final MessageService messageService;
     private final FirebaseService firebaseService;
 
     @GetMapping
@@ -43,6 +45,6 @@ public class ChatController {
 
     @GetMapping("/{id}/messages")
     public List<MessageDto> getMessages(@PathVariable Long id, Long beforeId, Long afterId, int limit) {
-        return chatService.getAllMessages(id, beforeId, afterId, limit);
+        return messageService.getAll(id, beforeId, afterId, limit);
     }
 }

@@ -1,6 +1,9 @@
 package com.vladrip.ifchat.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -18,9 +21,6 @@ public class Person {
     @Length(max = 128)
     @Id
     private String uid;
-
-    @Column(unique = true, nullable = false)
-    private String phoneNumber;
 
     @Length(max = 32)
     @Column(unique = true)

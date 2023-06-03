@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ChatMemberRepository extends JpaRepository<ChatMember, Long> {
@@ -20,4 +21,6 @@ public interface ChatMemberRepository extends JpaRepository<ChatMember, Long> {
     Optional<ChatMember> getOtherPrivateChatMember(Long chatId, String personUid);
 
     int countByChatId(Long chatId);
+
+    List<ChatMember> findAllByPersonUid(String personUid);
 }
