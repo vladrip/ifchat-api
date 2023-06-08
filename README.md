@@ -1,6 +1,8 @@
 # ifchat-api
 Spring REST API for "IFChat" chat application.<br>
 
+### Demo-video: https://youtu.be/CxigXRoug1g
+
 ### Running api:<br>
 Create database which can be accessed with this url (or change application.properties, 
 as of 17.04.2023 api does not have native queires and should work with any RDBMS):<br>
