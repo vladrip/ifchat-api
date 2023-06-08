@@ -13,16 +13,12 @@ import java.time.LocalDateTime;
 public class Device {
     @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String deviceToken;
+
+    private LocalDateTime tokenTimestamp;
 
     @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "person_uid")
     private Person person;
-
-    @Column(unique = true, nullable = false)
-    private String deviceToken;
-
-    private LocalDateTime tokenTimestamp = LocalDateTime.now();
 }

@@ -14,9 +14,9 @@ public class DeviceController {
     private final FirebaseService firebaseService;
 
     @PostMapping(consumes = MediaType.TEXT_PLAIN_VALUE)
-    public void create(@RequestHeader(name = "Authorization") String authToken,
-                       @RequestBody String deviceToken) {
-        deviceService.create(firebaseService.uidFromToken(authToken), deviceToken);
+    public void createOrUpdate(@RequestHeader(name = "Authorization") String authToken,
+                               @RequestBody String deviceToken) {
+        deviceService.createOrUpdate(firebaseService.uidFromToken(authToken), deviceToken);
     }
 
     @DeleteMapping("/{deviceToken}")

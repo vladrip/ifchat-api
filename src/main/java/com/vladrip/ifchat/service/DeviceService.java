@@ -22,10 +22,20 @@ public class DeviceService {
     private final ChatMemberRepository chatMemberRepository;
     private final FirebaseMessaging firebaseMessaging;
 
-    public void create(String personUid, String deviceToken) {
+    public void createOrUpdate(String personUid, String deviceToken) {
+        deviceRepository.findById(deviceToken)
+                .ifPresentOrElse(this::update, () -> create(personUid, deviceToken));
+    }
+
+    private void update(Device device) {
+        device.setTokenTimestamp(LocalDateTime.now());
+        deviceRepository.save(device);
+    }
+
+    private void create(String personUid, String deviceToken) {
         Device device = new Device();
         Person person = personRepository.findById(personUid)
-                .orElseThrow(()->EntityNotFoundException.of("Person", personUid));
+                .orElseThrow(() -> EntityNotFoundException.of("Person", personUid));
         device.setPerson(person);
         device.setDeviceToken(deviceToken);
         device.setTokenTimestamp(LocalDateTime.now());
@@ -34,13 +44,14 @@ public class DeviceService {
         chatMemberRepository.findAllByPersonUid(personUid).forEach(cm -> {
             Chat chat = cm.getChat();
             if (chat.getType() == Chat.ChatType.GROUP)
-                firebaseMessaging.subscribeToTopicAsync(deviceTokenList, "g".concat(chat.getId().toString()));
+                firebaseMessaging
+                        .subscribeToTopicAsync(deviceTokenList, "g".concat(chat.getId().toString()));
         });
 
         deviceRepository.save(device);
     }
 
     public void delete(String token) {
-        deviceRepository.deleteByDeviceToken(token);
+        deviceRepository.deleteById(token);
     }
 }
