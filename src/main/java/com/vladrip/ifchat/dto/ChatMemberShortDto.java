@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Value
 public class ChatMemberShortDto {
     Long id;
-    String personUid;
+    Long chatId;
     String firstName;
     String lastName;
     LocalDateTime onlineAt;

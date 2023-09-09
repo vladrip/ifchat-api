@@ -33,7 +33,8 @@ public class Person {
     @Length(max = 64)
     private String lastName;
 
-    private LocalDateTime onlineAt = LocalDateTime.now();
+    @Column(columnDefinition = "timestamp(3)")
+    private LocalDateTime onlineAt;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "person")

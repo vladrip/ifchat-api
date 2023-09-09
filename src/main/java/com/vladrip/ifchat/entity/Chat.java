@@ -1,7 +1,6 @@
 package com.vladrip.ifchat.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -23,7 +22,7 @@ public class Chat {
 
     private String description;
 
-    @NotNull
+    @Column(columnDefinition = "varchar(16)", nullable = false)
     @Enumerated(EnumType.STRING)
     private ChatType type;
 

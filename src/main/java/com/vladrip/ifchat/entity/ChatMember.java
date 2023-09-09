@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name = "chat_member")
 @Entity
 public class ChatMember {
     @EqualsAndHashCode.Include
@@ -25,6 +26,6 @@ public class ChatMember {
 
     @ToString.Exclude
     @ManyToOne
-    @JoinColumn(name = "person_uid")
+    @JoinColumn(name = "person_uid", columnDefinition = "varchar(128)")
     private Person person;
 }

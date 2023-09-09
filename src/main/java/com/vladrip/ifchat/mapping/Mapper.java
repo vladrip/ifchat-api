@@ -26,7 +26,7 @@ public interface Mapper {
 
     ChatGroupDto toChatGroupDto(Chat chat, int memberCount);
 
-    @Mapping(target = "personUid", source = "person.uid")
+    @Mapping(target = "chatId", source = "chat.id")
     @Mapping(target = "firstName", source = "person.firstName")
     @Mapping(target = "lastName", source = "person.lastName")
     @Mapping(target = "onlineAt", source = "person.onlineAt")

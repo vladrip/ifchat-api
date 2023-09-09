@@ -15,10 +15,11 @@ public class Device {
     @Id
     private String deviceToken;
 
+    @Column(columnDefinition = "timestamp(3)")
     private LocalDateTime tokenTimestamp;
 
     @ToString.Exclude
     @ManyToOne
-    @JoinColumn(name = "person_uid")
+    @JoinColumn(name = "person_uid", columnDefinition = "varchar(128)")
     private Person person;
 }

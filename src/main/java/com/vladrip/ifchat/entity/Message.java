@@ -23,11 +23,12 @@ public class Message {
     private String content;
 
     @NotNull
+    @Column(columnDefinition = "timestamp(3)")
     private LocalDateTime sentAt;
 
     @ToString.Exclude
     @ManyToOne
-    @JoinColumn(name = "sender_uid")
+    @JoinColumn(name = "sender_uid", columnDefinition = "varchar(128)")
     private Person sender;
 
     @ToString.Exclude

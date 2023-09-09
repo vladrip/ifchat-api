@@ -2,33 +2,7 @@ INSERT INTO chat (name, description, type)
 VALUES (NULL, NULL, 'PRIVATE'),
        (NULL, NULL, 'PRIVATE'),
        (NULL, NULL, 'PRIVATE'),
-       (NULL, NULL, 'PRIVATE'),
-       (NULL, NULL, 'PRIVATE'),
-       ('Test Group', 'Big description about this test group', 'GROUP'),
-       ('Richmont Mines, Inc.', 'leverage dot-com supply-chains', 'GROUP'),
-       (NULL, NULL, 'PRIVATE'),
-       ('Skiptube', NULL, 'GROUP'),
-       ('Orix Corp Ads', NULL, 'GROUP'),
-       (NULL, NULL, 'PRIVATE'),
-       (NULL, NULL, 'PRIVATE'),
-       (NULL, NULL, 'PRIVATE'),
-       (NULL, NULL, 'PRIVATE'),
-       (NULL, NULL, 'PRIVATE'),
-       (NULL, NULL, 'PRIVATE'),
-       (NULL, NULL, 'PRIVATE'),
-       ('Jabberbean', NULL, 'GROUP'),
-       (NULL, NULL, 'PRIVATE'),
-       ('Kamba', 'brand proactive e-commerce', 'GROUP'),
-       (NULL, NULL, 'PRIVATE'),
-       (NULL, NULL, 'PRIVATE'),
-       (NULL, NULL, 'PRIVATE'),
-       (NULL, NULL, 'PRIVATE'),
-       ('Rexnord Corporation', NULL, 'GROUP'),
-       ('Nuvectra Corporation', NULL, 'GROUP'),
-       (NULL, NULL, 'PRIVATE'),
-       ('Colgate-Palmolive Company', 'transition innovative deliverables', 'GROUP'),
-       (NULL, NULL, 'PRIVATE'),
-       (NULL, NULL, 'PRIVATE');
+       ('Test Group', 'Big description about this test group', 'GROUP');
 
 
 insert into person (uid, first_name, last_name, tag, online_at)
@@ -45,13 +19,13 @@ values (1, 'FxxOZAP5lCTboBPVxZUjWBnCA6q1', false),
        (2, 'VvAxL97jgNUTaEov4mzQ8avEGyH3', false),
        (3, 'cB4o1nENC4WIEhzYiNlNvyF2bj83', false),
        (3, 'VvAxL97jgNUTaEov4mzQ8avEGyH3', false),
-       (6, 'FxxOZAP5lCTboBPVxZUjWBnCA6q1', false),
-       (6, 'cB4o1nENC4WIEhzYiNlNvyF2bj83', false),
-       (6, 'VvAxL97jgNUTaEov4mzQ8avEGyH3', false);
+       (4, 'FxxOZAP5lCTboBPVxZUjWBnCA6q1', false),
+       (4, 'cB4o1nENC4WIEhzYiNlNvyF2bj83', false),
+       (4, 'VvAxL97jgNUTaEov4mzQ8avEGyH3', false);
 
 
 insert into message (chat_id, sender_uid, sent_at, content)
 values (1, 'FxxOZAP5lCTboBPVxZUjWBnCA6q1', '2021-02-10 18:37:49', 'Hi'),
        (2, 'VvAxL97jgNUTaEov4mzQ8avEGyH3', '2023-06-01 12:19:57', 'Yo how u doing'),
        (3, 'cB4o1nENC4WIEhzYiNlNvyF2bj83', '2023-02-17 15:14:23', 'Hello'),
-       (6, 'cB4o1nENC4WIEhzYiNlNvyF2bj83', '2023-06-02 20:55:10', 'Hello gentlemen. Lets play minecraft!')
+       (4, 'cB4o1nENC4WIEhzYiNlNvyF2bj83', '2023-06-02 20:55:10', 'Hello gentlemen. Lets play minecraft!')
