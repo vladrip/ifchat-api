@@ -37,8 +37,7 @@ public class FirebaseService {
             switch (message.getChat().getType()) {
                 case PRIVATE -> {
                     PersonDto otherPerson = chatService
-                            .getPrivateChat(message.getChat().getId(), message.getSender().getUid())
-                            .getOtherPerson();
+                            .getChat(message.getChat().getId(), message.getSender().getUid()).getOtherPerson();
                     String otherPersonUid = otherPerson.getUid();
                     MulticastMessage firebaseMessage = MulticastMessage.builder()
                             .addAllTokens(deviceRepository.getAllByPersonUid(otherPersonUid)

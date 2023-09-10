@@ -1,9 +1,8 @@
 package com.vladrip.ifchat.service;
 
-import com.vladrip.ifchat.dto.ChatGroupDto;
 import com.vladrip.ifchat.dto.ChatListElDto;
 import com.vladrip.ifchat.dto.ChatMemberShortDto;
-import com.vladrip.ifchat.dto.ChatPrivateDto;
+import com.vladrip.ifchat.dto.ChatDto;
 import com.vladrip.ifchat.entity.Chat;
 import com.vladrip.ifchat.entity.ChatMember;
 import com.vladrip.ifchat.exception.EntityNotFoundException;
@@ -33,21 +32,20 @@ public class ChatService {
         });
     }
 
-    public ChatPrivateDto getPrivateChat(Long id, String personUid) {
-        Chat chat = chatRepository.findById(id)
-                .orElseThrow(() -> EntityNotFoundException.of("Chat", id));
-        ChatMember otherMember = chatMemberRepository.getOtherPrivateChatMember(id, personUid)
-                .orElseThrow(() -> EntityNotFoundException.of("Other member of chat %d with member %s", id, personUid));
-        return mapper.toChatPrivateDto(chat, otherMember.getPerson());
-    }
-
-    public ChatGroupDto getGroupChat(Long id) {
-        return mapper.toChatGroupDto(chatRepository.findById(id)
-                        .orElseThrow(() -> EntityNotFoundException.of("Chat", id)),
-                chatMemberRepository.countByChatId(id));
+    public ChatDto getChat(Long id, String personUid) {
+        Chat chat = retrieve(id);
+        if (chat.getType() == Chat.ChatType.PRIVATE) {
+            ChatMember otherMember = chatMemberRepository.getOtherPrivateChatMember(id, personUid)
+                    .orElseThrow(() -> EntityNotFoundException.of("Other member of chat %d with member %s", id, personUid));
+            return mapper.toChatDto(chat, otherMember.getPerson());
+        } else return mapper.toChatDto(chat, chatMemberRepository.countByChatId(id));
     }
 
     public Page<ChatMemberShortDto> getMembers(Long id, Pageable pageable) {
         return chatMemberRepository.getChatMembersByChatId(id, pageable).map(mapper::toChatMemberShortDto);
+    }
+
+    private Chat retrieve(Long id) {
+        return chatRepository.findById(id).orElseThrow(() -> EntityNotFoundException.of("Chat", id));
     }
 }

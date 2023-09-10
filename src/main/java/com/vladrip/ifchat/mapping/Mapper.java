@@ -22,9 +22,9 @@ public interface Mapper {
 
     @Mapping(target = "id", source = "chat.id")
     @Mapping(target = "otherPerson", source = "person")
-    ChatPrivateDto toChatPrivateDto(Chat chat, Person person);
+    ChatDto toChatDto(Chat chat, Person person);
 
-    ChatGroupDto toChatGroupDto(Chat chat, int memberCount);
+    ChatDto toChatDto(Chat chat, int memberCount);
 
     @Mapping(target = "chatId", source = "chat.id")
     @Mapping(target = "firstName", source = "person.firstName")

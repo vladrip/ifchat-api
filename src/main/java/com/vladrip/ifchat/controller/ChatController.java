@@ -21,20 +21,15 @@ public class ChatController {
     private final MessageService messageService;
     private final FirebaseService firebaseService;
 
+    @GetMapping("/{id}")
+    public ChatDto get(@PathVariable Long id, @RequestHeader(name = "Authorization") String authToken) {
+        return chatService.getChat(id, firebaseService.uidFromToken(authToken));
+    }
+
     @GetMapping
     public Page<ChatListElDto> getChatList(@RequestHeader(name = "Authorization") String authToken,
                                            @PageableDefault @ParameterObject Pageable pageable) {
         return chatService.getChatList(firebaseService.uidFromToken(authToken), pageable);
-    }
-
-    @GetMapping("/p{id}")
-    public ChatPrivateDto getPrivate(@PathVariable Long id, @RequestHeader(name = "Authorization") String authToken) {
-        return chatService.getPrivateChat(id, firebaseService.uidFromToken(authToken));
-    }
-
-    @GetMapping("/g{id}")
-    public ChatGroupDto getGroup(@PathVariable Long id) {
-        return chatService.getGroupChat(id);
     }
 
     @GetMapping("/{id}/members")
