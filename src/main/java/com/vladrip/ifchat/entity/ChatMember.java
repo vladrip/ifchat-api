@@ -1,7 +1,6 @@
 package com.vladrip.ifchat.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @AllArgsConstructor
@@ -16,8 +15,7 @@ public class ChatMember {
     @Id
     private Long id;
 
-    @NotNull
-    private boolean chatMuted = false;
+    private Boolean isChatMuted = false;
 
     @ToString.Exclude
     @ManyToOne

@@ -13,18 +13,23 @@ public interface Mapper {
 
     PersonShortDto toPersonShortDto(Person person);
 
-    @Mapping(target = "chatId", source = "message.chat.id")
+    @Mapping(target = "chatId", source = "chat.id")
     MessageDto toMessageDto(Message message);
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "chat", ignore = true)
     @Mapping(target = "sender", ignore = true)
     Message toMessage(MessageDto messageDto);
 
+    UserChatMemberDto toUserChatMemberDto(ChatMember chatMember);
+
     @Mapping(target = "id", source = "chat.id")
     @Mapping(target = "otherPerson", source = "person")
-    ChatDto toChatDto(Chat chat, Person person);
+    @Mapping(target = "memberCount", ignore = true)
+    ChatDto toChatDto(Chat chat, ChatMember userChatMember, Person person);
 
-    ChatDto toChatDto(Chat chat, int memberCount);
+    @Mapping(target = "id", source = "chat.id")
+    @Mapping(target = "otherPerson", ignore = true)
+    ChatDto toChatDto(Chat chat, ChatMember userChatMember, int memberCount);
 
     @Mapping(target = "chatId", source = "chat.id")
     @Mapping(target = "firstName", source = "person.firstName")

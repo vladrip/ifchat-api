@@ -1,8 +1,10 @@
 package com.vladrip.ifchat.service;
 
 import com.vladrip.ifchat.dto.MessageDto;
+import com.vladrip.ifchat.entity.Chat;
 import com.vladrip.ifchat.entity.Message;
-import com.vladrip.ifchat.exception.EntityNotFoundException;
+import com.vladrip.ifchat.entity.Person;
+import com.vladrip.ifchat.exception.ItemNotFoundException;
 import com.vladrip.ifchat.mapping.Mapper;
 import com.vladrip.ifchat.repository.ChatRepository;
 import com.vladrip.ifchat.repository.MessageRepository;
@@ -46,8 +48,8 @@ public class MessageService {
         Message message = mapper.toMessage(messageDto);
         Long chatId = messageDto.getChatId();
         String senderUid = messageDto.getSender().getUid();
-        message.setChat(chatRepository.findById(chatId).orElseThrow(()->EntityNotFoundException.of("Chat", chatId)));
-        message.setSender(personRepository.findById(senderUid).orElseThrow(()->EntityNotFoundException.of("Person", senderUid)));
+        message.setChat(chatRepository.findById(chatId).orElseThrow(() -> new ItemNotFoundException(Chat.class, chatId)));
+        message.setSender(personRepository.findById(senderUid).orElseThrow(() -> new ItemNotFoundException(Person.class, senderUid)));
 
         Message persistedMessage = messageRepository.save(message);
         firebaseService.sendFirebaseMessage(message);

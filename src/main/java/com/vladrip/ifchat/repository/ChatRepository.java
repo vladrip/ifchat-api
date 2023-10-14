@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ChatRepository extends JpaRepository<Chat, Long> {
     @Query("""
-                SELECT new com.vladrip.ifchat.dto.ChatListElDto(c.id, c.name, c.type, m.id, m.content, m.sentAt, cm.chatMuted)
+                SELECT new com.vladrip.ifchat.dto.ChatListElDto(c.id, c.name, c.type, m.id, m.content, m.sentAt, cm.isChatMuted)
                 FROM Chat c
                 INNER JOIN ChatMember cm ON c.id = cm.chat.id
                 INNER JOIN Message m ON c.id = m.chat.id

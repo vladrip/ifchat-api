@@ -4,7 +4,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.vladrip.ifchat.entity.Chat;
 import com.vladrip.ifchat.entity.Device;
 import com.vladrip.ifchat.entity.Person;
-import com.vladrip.ifchat.exception.EntityNotFoundException;
+import com.vladrip.ifchat.exception.ItemNotFoundException;
 import com.vladrip.ifchat.repository.ChatMemberRepository;
 import com.vladrip.ifchat.repository.DeviceRepository;
 import com.vladrip.ifchat.repository.PersonRepository;
@@ -35,7 +35,7 @@ public class DeviceService {
     private void create(String personUid, String deviceToken) {
         Device device = new Device();
         Person person = personRepository.findById(personUid)
-                .orElseThrow(() -> EntityNotFoundException.of("Person", personUid));
+                .orElseThrow(() -> new ItemNotFoundException(Person.class, personUid));
         device.setPerson(person);
         device.setDeviceToken(deviceToken);
         device.setTokenTimestamp(LocalDateTime.now());

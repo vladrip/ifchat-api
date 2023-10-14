@@ -48,7 +48,7 @@ public class SecurityConfig {
             log.info("Test token: " +
                      JsonParser.parseString(response.body()).getAsJsonObject().get("idToken").getAsString());
         } catch (IOException | InterruptedException | URISyntaxException e) {
-            throw new RuntimeException(e);
+            log.error("Error while generating test token: " + e.getMessage());
         }
     }
 }

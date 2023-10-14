@@ -23,4 +23,6 @@ public interface ChatMemberRepository extends JpaRepository<ChatMember, Long> {
     int countByChatId(Long chatId);
 
     List<ChatMember> findAllByPersonUid(String personUid);
+
+    Optional<ChatMember> getByChatIdAndPersonUid(Long chatId, String personUid);
 }

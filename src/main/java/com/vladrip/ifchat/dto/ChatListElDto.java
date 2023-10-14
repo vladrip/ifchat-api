@@ -13,10 +13,10 @@ public class ChatListElDto {
     Long lastMsgId;
     String lastMsgContent;
     LocalDateTime lastMsgSentAt;
-    boolean isMuted;
+    boolean isChatMuted;
 
     public static ChatListElDto of(ChatListElDto chatListElDto, String chatName) {
         return new ChatListElDto(chatListElDto.chatId, chatName, chatListElDto.chatType, chatListElDto.lastMsgId,
-                chatListElDto.lastMsgContent, chatListElDto.lastMsgSentAt, chatListElDto.isMuted);
+                chatListElDto.lastMsgContent, chatListElDto.lastMsgSentAt, chatListElDto.isChatMuted);
     }
 }

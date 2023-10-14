@@ -8,6 +8,7 @@ public class ChatDto {
     Long id;
     ChatType type;
     PersonDto otherPerson;
+    UserChatMemberDto userChatMember;
     String name;
     String description;
     int memberCount;
