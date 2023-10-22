@@ -45,26 +45,23 @@ public class FirebaseService {
                     String personUid = message.getSender().getUid();
                     PersonDto otherPerson = chatService.getChat(chatId, personUid).getOtherPerson();
                     String otherPersonUid = otherPerson.getUid();
-
-                    if (chatMemberRepository.getByChatIdAndPersonUid(chatId, otherPersonUid)
+                    boolean isMuted = chatMemberRepository.getByChatIdAndPersonUid(chatId, otherPersonUid)
                             .orElseThrow(() -> new ItemNotFoundException(
                                     ChatMember.class, "chatId:%d, otherPersonUid:%s", chatId, otherPersonUid
                             ))
-                            .getIsChatMuted())
-                        return;
+                            .getIsChatMuted();
 
                     MulticastMessage firebaseMessage = MulticastMessage.builder()
-                            .addAllTokens(deviceRepository.getAllByPersonUid(personUid).stream()
+                            .addAllTokens(deviceRepository.getAllByPersonUid(otherPersonUid).stream()
                                     .map(Device::getDeviceToken)
                                     .toList()
                             )
                             .putData("message", messageJson)
                             .putData("chatType", chatTypeJson)
-                            .setNotification(Notification.builder()
+                            .setNotification(isMuted ? null : Notification.builder()
                                     .setTitle(otherPerson.getFirstName().concat(" ").concat(otherPerson.getLastName()))
                                     .setBody(notificationBody)
-                                    .build()
-                            )
+                                    .build())
                             .build();
                     firebaseMessaging.sendMulticast(firebaseMessage);
                     //TODO detect and delete inactive tokens
@@ -104,8 +101,8 @@ public class FirebaseService {
         if (chatType == Chat.ChatType.PRIVATE) return;
         try {
             firebaseMessaging.unsubscribeFromTopic(deviceRepository.getAllByPersonUid(uid).stream()
-                    .map(Device::getDeviceToken)
-                    .toList(),
+                            .map(Device::getDeviceToken)
+                            .toList(),
                     "g" + chatId
             );
         } catch (FirebaseMessagingException e) {
