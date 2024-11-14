@@ -1,3 +1,4 @@
+# Moved to monorepo: https://github.com/vladrip/ifchat
 # ifchat-api
 Spring REST API for "IFChat" chat application.<br>
 ### Demo-video: https://youtu.be/CxigXRoug1g
